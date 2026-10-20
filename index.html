@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>מעבדת הצירים ההורמונליים</title>
+  <meta name="description" content="סימולטור אינטראקטיבי ללימוד צירים הורמונליים, משוב שלילי והפרעות אנדוקריניות">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- הגדרות גרפיות משותפות: צורות חלקיקים ומסנן טשטוש -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <circle id="p-circle" r="6"/>
+      <path id="p-diamond" d="M0,-8 L7,0 L0,8 L-7,0Z"/>
+      <path id="p-triangle" d="M0,-8 L8,6 L-8,6Z"/>
+      <rect id="p-square" x="-6" y="-6" width="12" height="12" rx="1.5"/>
+      <path id="p-hexagon" d="M7,0 L3.5,6 L-3.5,6 L-7,0 L-3.5,-6 L3.5,-6Z"/>
+      <rect id="p-capsule" x="-9" y="-5" width="18" height="10" rx="5"/>
+      <path id="p-antibody" d="M0,9 V0 M0,0 L-7,-8 M0,0 L7,-8" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <filter id="blur20" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="20"/></filter>
+    </defs>
+  </svg>
+
+  <header class="topbar">
+    <button class="brand" id="btn-home" type="button" aria-label="חזרה למסך הראשי">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="-12 -12 24 24" width="26" height="26"><circle r="3.4" fill="#4ade80"/><circle r="10" fill="none" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="3 3"/><circle cx="10" r="2.2" fill="#fbbf24"/><circle cx="-7" cy="-7" r="2" fill="#f87171"/></svg>
+      </span>
+      <span>מעבדת הצירים ההורמונליים</span>
+    </button>
+  </header>
+
+  <main>
+    <!-- מסך בית -->
+    <section id="home" class="screen">
+      <div class="hero">
+        <h1>איך הגוף שומר על איזון הורמונלי?</h1>
+        <p>בחרו ציר הורמונלי, צפו בהורמונים נעים בין האיברים, ובדקו איך משוב שלילי מגיב כשמשהו משתבש. אפשר ללמוד כל מצב קליני, או לנסות לאבחן מקרה מסתורי.</p>
+      </div>
+      <div class="axis-grid" id="axis-grid"></div>
+      <div class="modes-intro">
+        <div><b>מצב למידה</b><span>בוחרים מצב קליני וצופים בהסבר שלב אחר שלב, מהציר התקין ועד המצב החדש.</span></div>
+        <div><b>מצב אבחון</b><span>מקרה אקראי ללא שם וללא רמזים. מתבוננים בהורמונים ובמשוב ומזהים את האבחנה.</span></div>
+      </div>
+    </section>
+
+    <!-- מסך ציר -->
+    <section id="axis" class="screen" hidden>
+      <div class="axis-bar">
+        <button class="btn ghost" id="btn-back" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          כל הצירים
+        </button>
+        <h2 id="axis-title"></h2>
+        <div class="tabs" role="tablist" aria-label="מצב עבודה">
+          <button role="tab" type="button" data-mode="learn" id="tab-learn">מצב למידה</button>
+          <button role="tab" type="button" data-mode="diag" id="tab-diag">מצב אבחון</button>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <div class="area-mode card" id="panel-mode"></div>
+
+        <div class="area-stage">
+          <div class="stage">
+            <svg id="stage" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="תרשים אינטראקטיבי של הציר ההורמונלי"></svg>
+            <div class="stage-badge" id="stage-badge" aria-live="polite"></div>
+          </div>
+          <div class="controls" id="controls">
+            <button class="icon-btn" id="c-prev" type="button" aria-label="שלב קודם" title="שלב קודם">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M17 5v14M15 12L7 6v12z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-btn primary" id="c-play" type="button" aria-label="השהיה"></button>
+            <button class="icon-btn" id="c-next" type="button" aria-label="שלב הבא" title="שלב הבא">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M7 5v14M9 12l8-6v12z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-btn" id="c-restart" type="button" aria-label="התחלה מחדש" title="התחלה מחדש">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="dots" id="dots" aria-label="התקדמות בשלבים"></div>
+            <label class="speed">
+              <span>מהירות</span>
+              <select id="c-speed" aria-label="מהירות האנימציה">
+                <option value="0.5">0.5×</option>
+                <option value="1" selected>1×</option>
+                <option value="1.5">1.5×</option>
+                <option value="2">2×</option>
+              </select>
+            </label>
+          </div>
+          <div class="legend">
+            <span><i class="lg lg-minus"></i> עיכוב (משוב שלילי)</span>
+            <span><i class="lg lg-plus"></i> גירוי</span>
+            <span><i class="lg lg-block"></i> משוב שאינו פועל</span>
+            <span class="lg-bars"><i class="b b1"></i><i class="b b2"></i><i class="b b3"></i> רמה: נמוך / תקין / גבוה</span>
+          </div>
+        </div>
+
+        <div class="area-caption card" id="panel-caption"></div>
+        <div class="area-levels card" id="panel-levels"></div>
+        <div class="area-explain card" id="panel-explain" hidden></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">כלי לימוד בלבד. המודל איכותי ומפושט, ואינו מחליף ייעוץ רפואי.</footer>
+
+  <script src="js/core.js"></script>
+  <script src="js/illustrations.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/simulator.js"></script>
+  <!-- הגדרות צירים ומחלות: כדי להוסיף ציר חדש מוסיפים קובץ אחד לכל סוג וטוענים אותו כאן -->
+  <script src="js/data/axes/thyroid.js"></script>
+  <script src="js/data/axes/cortisol.js"></script>
+  <script src="js/data/axes/growth-hormone.js"></script>
+  <script src="js/data/diseases/thyroid.js"></script>
+  <script src="js/data/diseases/cortisol.js"></script>
+  <script src="js/data/diseases/growth-hormone.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
