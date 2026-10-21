@@ -46,6 +46,7 @@ h1, h2, h3, p { margin: 0; }
   display: flex; align-items: center; gap: 10px; background: none; border: 0;
   font-size: 1.1rem; font-weight: 700; padding: 4px 6px; border-radius: 10px;
 }
+.credit { margin-inline-start: auto; color: var(--muted); font-size: .9rem; white-space: nowrap; }
 .brand:hover { background: var(--panel); }
 .brand-mark { display: grid; place-items: center; }
 

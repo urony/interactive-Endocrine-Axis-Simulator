@@ -78,6 +78,7 @@
   function showScreen(name) {
     $('#home').hidden = name !== 'home';
     $('#axis').hidden = name !== 'axis';
+    $('#credit').hidden = name !== 'home'; // קרדיט מופיע רק במסך הראשון
     window.scrollTo(0, 0);
   }
 
